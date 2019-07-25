@@ -1,11 +1,11 @@
 #!/bin/sh
-#SBATCH --job-name=SRAtoolkit
+#SBATCH --job-name=process
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=168:00:00
 #SBATCH --mem=10gb
-#SBATCH --output=SRAtoolkit.%J.out
-#SBATCH --error=SRAtoolkit.%J.err
+#SBATCH --output=process.%J.out
+#SBATCH --error=process.%J.err
 
 for fastq in *.fastq
 do
