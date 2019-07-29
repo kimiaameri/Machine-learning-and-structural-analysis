@@ -12,8 +12,8 @@
  #awk 'BEGIN {FS = "\t" ; OFS = "\n"} {header = $0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) >25) {print header, seq, qheader, qseq}}' < $fastq > filtered_$fastq
 #done
 
-find . -name "*.fastq" -size 0k -delete
+#find . -name "*.fastq" -size 0k -delete
 
 for x in `cat unpaird.finallist.isolates.txt`; do 
-find . -name "filtered_x*"  -delete
+find . -name "filtered_$x*"  -delete
 done
