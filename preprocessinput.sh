@@ -14,6 +14,9 @@
 
 #find . -name "*.fastq" -size 0k -delete
 
-for x in `cat unpaird.finallist.isolates.txt`; do 
+#for x in `cat unpaird.finallist.isolates.txt`; do 
+#find . -name "filtered_$x*"  -delete
+#done
+for x in `cat SRA.removed.txt`; do 
 find . -name "filtered_$x*"  -delete
 done
