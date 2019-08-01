@@ -37,8 +37,8 @@ python3 pythonTrimmomaticNoadapter.py ./InputFiles.csv $MINICONDA_HOME $GITHUB_D
 
 sh trimmomatic.sh > $WORK/SNP-outputs/trimmomatic.log
 #### For BWA
-cd $WORK/SNP-outputs
-mkdir samfiles
+#cd $WORK/SNP-outputs
+#mkdir samfiles
 cd $WORK/SNP
 python3 pythonBwa.py ./InputFiles.csv $MINICONDA_HOME
 sh bwa.sh
