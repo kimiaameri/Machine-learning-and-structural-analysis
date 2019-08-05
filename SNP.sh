@@ -56,3 +56,50 @@ cd $WORK/SNP/
 python3 pythonBam.py ./InputFiles.csv $MINICONDA_HOME
 sh bam.sh
 
+###########  Picard ##################
+cd $WORK/SNP-outputs
+mkdir picard
+cd picard
+mkdir picardlog
+cd $WORK/SNP/
+#python3 pythonPicard.py ./InputFiles.csv $PICARD
+python3 pythonPicard.py ./InputFiles.csv $MINICONDA_HOME
+
+sh picard.sh
+###########  Freebayes ##################
+cd $WORK/SNP-outputs
+mkdir freebayesoutput
+
+cd $WORK/SNP/
+#python3 pythonFreebayes.py ./InputFiles.csv $FREEBAYES
+python3 pythonFreebayes.py ./InputFiles.csv $MINICONDA_HOME
+
+sh freebayes.sh
+
+########### Getting depth and qual for filtering ######
+#python3 pythonFinddepth.py ./InputFiles.csv $SAMTools 
+python3 pythonFinddepth.py ./InputFiles.csv $MINICONDA_HOME
+sh findDepth.sh
+
+Rscript depth.R $WORK/SNP-outputs/depth/ $WORK/SNP-outputs/freebayesoutput/ depth.txt quality.txt 
+export DEPTH=$(( `cat depth.txt` * 1 ))
+export QUALITY=$((`cat quality.txt` * 1 ))
+
+###########  VCF-BCF ##################
+cd $WORK/SNP-outputs
+mkdir vcffilter-q
+mkdir bcfoutput
+mkdir vcffilter-q-dp
+cd $WORK/SNP/
+#python3 pythonBCF_VCF.py ./InputFiles.csv $BCFTools $QUALITY $DEPTH
+python3 pythonBCF_VCF.py ./InputFiles.csv $MINICONDA_HOME $QUALITY $DEPTH
+
+sh BCF-VCF.sh
+###########  snpEFF filter downstream, upstream  ##################
+cd $WORK/SNP-outputs
+mkdir SnpEffFilter
+cd $WORK/SNP/
+python3 pythonSnpEffFilter.py ./InputFiles.csv $MINICONDA_HOME $WORK/SNP-outputs
+python3 pythonSnpEffMerge.py ./InputFiles.csv $MINICONDA_HOME $WORK/SNP-outputs
+sh snpEffFilter.py
+sh snpEffMerge.sh
