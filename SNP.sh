@@ -97,9 +97,13 @@ python3 pythonBCF_VCF.py ./InputFiles.csv $MINICONDA_HOME $QUALITY $DEPTH
 sh BCF-VCF.sh
 ###########  snpEFF filter downstream, upstream  ##################
 cd $WORK/SNP-outputs
-mkdir SnpEffFilter
+mkdir snpEff
+cd snpEff
+mkdr snpEff-gene
+mkdir snpEff-summary
+mkdir snpEff-filtered
 cd $WORK/SNP/
-python3 pythonSnpEffFilter.py ./InputFiles.csv $MINICONDA_HOME $WORK/SNP-outputs
+python3 pythonSnpEffFilter.py ./InputFiles.csv $MINICONDA_HOME 
 python3 pythonSnpEffMerge.py ./InputFiles.csv $MINICONDA_HOME $WORK/SNP-outputs
-sh snpEffFilter.py
+sh snpEff.py
 sh snpEffMerge.sh
