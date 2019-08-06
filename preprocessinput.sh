@@ -1,4 +1,4 @@
-#!/bin/sh
+##!/bin/sh
 #SBATCH --job-name=process
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -17,6 +17,20 @@
 #for x in `cat unpaird.finallist.isolates.txt`; do 
 #find . -name "filtered_$x*"  -delete
 #done
-for x in `cat SRA.removed.txt`; do 
-find . -name "filtered_$x*"  -delete
-done
+#for x in `cat SRA.removed.txt`; do 
+#find . -name "filtered_$x*"  -delete
+#done
+#-------------------download and install Stamphy ---------------------------#
+wget https://005.medsci.ox.ac.uk/files-library/stampy-latest.tgz 
+tar zxvf stampy-latest.tgz
+rm stampy-latest.tgz
+cd stampy
+make
+#or 
+#make python=python2.6
+
+./stampy.py -G sa $WORK/SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/BWAIndex/genome.fa.gz
+./stampy.py -g sa -H sa
+
+cd $WORK/SNP-outputs
+mkdir stampy
