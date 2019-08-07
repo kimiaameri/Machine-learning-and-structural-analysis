@@ -25,9 +25,8 @@ wget https://005.medsci.ox.ac.uk/files-library/stampy-latest.tgz
 tar zxvf stampy-latest.tgz
 rm stampy-latest.tgz
 cd stampy-1.0.32 
-make
-#or 
-#make python=python2.6
+ 
+make python=python2.7
 
 ./stampy.py -G sa $WORK/SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/BWAIndex/genome.fa.gz
 ./stampy.py -g sa -H sa
