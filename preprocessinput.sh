@@ -24,7 +24,7 @@
 wget https://005.medsci.ox.ac.uk/files-library/stampy-latest.tgz 
 tar zxvf stampy-latest.tgz
 rm stampy-latest.tgz
-cd stampy
+cd stampy-1.0.32 
 make
 #or 
 #make python=python2.6
