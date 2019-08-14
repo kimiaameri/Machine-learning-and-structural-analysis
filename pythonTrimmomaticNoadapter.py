@@ -28,4 +28,3 @@ with open(outputFile,'w') as outFile:
               outFile.write("LengthReverse=${LengthReverse%.*} \n")
               outFile.write(f'{minicondaBin}trimmomatic PE -threads 4 -phred33 -trimlog $WORK/SNP-outputs/trimmomatic/trimlog/{row[0]}.trimlog $WORK/SNP/data/filtered_{row[1]} $WORK/SNP/data/filtered_{row[2]} $WORK/SNP-outputs/trimmomatic/{row[0]}-R1.paired.fq $WORK/SNP-outputs/trimmomatic/{row[0]}-R1.unpaired.fq $WORK/SNP-outputs/trimmomatic/{row[0]}-R2.paired.fq $WORK/SNP-outputs/trimmomatic/{row[0]}-R2.unpaired.fq SLIDINGWINDOW:4:15 MAXINFO:50:0.5 LEADING:3 TRAILING:3 MINLEN:$LengthReverse \n')
             count =count + 1
- 
