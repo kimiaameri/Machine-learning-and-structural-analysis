@@ -29,5 +29,5 @@ cd $WORK/SNP/
 
 for x in `cat inputs.txt`; do 
 python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
-sh
+
 done
