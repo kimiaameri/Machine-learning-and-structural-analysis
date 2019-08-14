@@ -22,7 +22,7 @@ mkdir SNP-outputs
 cd SNP-outputs
 ######## Input file #########
 cd $WORK/SNP
-Rscript inputFile.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
+Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
 ######## Trimmomatic #########
 ## make trimmomatic directory
 cd $WORK/SNP-outputs
@@ -33,7 +33,6 @@ cd $WORK/SNP
 #### for SNP if there is no adapter
 python3 pythonTrimmomaticNoadapter.py ./InputFiles.csv $MINICONDA_HOME $GITHUB_DIR
 ##### For SNP if there is adapter
-#python3 pythonTrimmomatic.py ../InputFiles.csv $MINICONDA_HOME $GITHUB_DIR
 
 sh trimmomatic.sh > $WORK/SNP-outputs/trimmomatic.log
 #### For BWA ##################
