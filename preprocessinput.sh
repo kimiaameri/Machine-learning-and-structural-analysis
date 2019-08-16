@@ -20,6 +20,8 @@
 #for x in `cat SRA.removed.txt`; do 
 #find . -name "filtered_$x*"  -delete
 #done
+
+
 #-------------------download and install Stamphy ---------------------------#
 wget https://005.medsci.ox.ac.uk/files-library/stampy-latest.tgz 
 tar zxvf stampy-latest.tgz
