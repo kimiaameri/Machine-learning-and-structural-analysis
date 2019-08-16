@@ -27,7 +27,7 @@ with open(outputFile,'w') as outFile:
               outFile.write(f' cd $WORK/SNP/data/\n' )
               outFile.write(f'cat  filtered_{row[0]}_2.fastq. | grep -o "length=.*$" | cut -f2 -d'=' > ../length/{row[0]}.txt  \n' )
               outFile.write(f' cd $WORK/SNP/length/\n' )
-              outFile.write(f' awk '{ total += \$1; count\++ } END { print total/count }'  {row[0]}.txt >length_{row[0]}.txt \n' )
+              outFile.write(f' awk '{ total += $\1; count++\ } END { print total/count }'  {row[0]}.txt >length_{row[0]}.txt \n' )
               outFile.write(f'export LengthReverse=$(( `cat length_{row[0]}.txt` ))  \n' )
               outFile.write("LengthReverse=${LengthReverse%.*} \n")
               outFile.write(f'{minicondaBin}trimmomatic PE -threads 4 -phred33 -trimlog $WORK/SNP-outputs/trimmomatic/trimlog/{row[0]}.trimlog $WORK/SNP/data/filtered_{row[1]} $WORK/SNP/data/filtered_{row[2]} $WORK/SNP-outputs/trimmomatic/{row[0]}-R1.paired.fq $WORK/SNP-outputs/trimmomatic/{row[0]}-R1.unpaired.fq $WORK/SNP-outputs/trimmomatic/{row[0]}-R2.paired.fq $WORK/SNP-outputs/trimmomatic/{row[0]}-R2.unpaired.fq SLIDINGWINDOW:4:15 MAXINFO:50:0.5 LEADING:3 TRAILING:3 MINLEN:$LengthReverse \n')
