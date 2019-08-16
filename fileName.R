@@ -22,7 +22,5 @@ for (i in 1:length(z))
   if ( i %% 2== 0) {inputFile[i,2]<- as.matrix(as.character(listdata[odd_indexes[i]]))
   inputFile[i,3]<- as.matrix(as.character(listdata[even_indexes[i]]))}
 }
-colnames(inputFile)<- c("SrA.Accession","Forward reads", "Reverse Reads")
-#write.table(inputFile, OutputFile, col.names = F, row.names = F , quote=FALSE)
-#write.table(m, OutputFile, col.names = F, row.names = F , quote=FALSE)
-write.csv(inputFile, OutputFile, row.names = F)
+#colnames(inputFile)<- c("SrA.Accession","Forward reads", "Reverse Reads")
+write.table(inputFile, OutputFile, col.names = F, row.names = F)
