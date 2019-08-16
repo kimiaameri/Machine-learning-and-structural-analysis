@@ -8,7 +8,13 @@
 
 export MINICONDA_HOME="~/miniconda3/envs/sanva/bin/"
 export GITHUB_DIR=`pwd`
+#-------------------- create file name
+
 module load R
+Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
+split -l 10 InputFiles.csv new    
+rename -n  's/new/inputfilemm' new*
+
 cd $WORK
 mkdir SNP-outputs
 cd $WORK/SNP-outputs
@@ -28,12 +34,10 @@ cd picard
 mkdir picardlog
 cd $WORK/SNP/
 mkdir length
-#-------------------- create file name
-Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
-split -l 10 InputFiles.csv new    
-rename -n  's/new/inputfilemm' new*
+
 
 for x in `cat inputs.txt`; do 
 python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
-
 done
+sh SNPS.sh
+
