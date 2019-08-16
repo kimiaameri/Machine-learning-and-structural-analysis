@@ -25,7 +25,7 @@ with open(outputFile,'w') as outFile:
         
         for row in csv_reader:
               outFile.write(f' cd $WORK/SNP/data/\n' )
-              outFile.write(f" cat  filtered_{row[0]}_2.fastq | grep -o 'length=.*$' | cut -f2 -d'=' > ../length/{row[0]}.txt  \n" )
+              outFile.write(f" cat  filtered_{row[2]} | grep -o 'length=.*$' | cut -f2 -d'=' > ../length/{row[0]}.txt  \n" )
               outFile.write(f' cd $WORK/SNP/length/\n' )
               ak = "awk '{ total += $1; count ++ } END { print total/count }'"
               outFile.write(f' {ak}  {row[0]}.txt > length_{row[0]}.txt \n' )
