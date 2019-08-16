@@ -23,4 +23,4 @@ for (i in 1:length(z))
   inputFile[i,3]<- as.matrix(as.character(listdata[even_indexes[i]]))}
 }
 colnames(inputFile)<- c("SrA.Accession","Forward reads", "Reverse Reads")
-write.csv(inputFile, OutputFile, row.names = F, sep=",")
+write.csv(inputFile, OutputFile, row.names = F)
