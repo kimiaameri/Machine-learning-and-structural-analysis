@@ -27,5 +27,5 @@ with open(outputFile,'w') as outFile:
             outFile.write(f'{minicondaBin}snpEff -v Staphylococcus_aureus_subsp_aureus_nctc_8325 $WORK/SNP-outputs/bcfoutput/{row[0]}.vcf > $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf \n')
             outFile.write('mv $WORK/SNP/snpEff_genes.txt $WORK/SNP-outputs/snpEff/snpEff-gene/{row[0]}.txt \n')
             outFile.write('mv $WORK/SNP/snpEff_summary.html $WORK/SNP-outputs/snpEff/snpEff-summary/{row[0]}.html \n')
-            filter_variant = "(Cases[0] = 3) & (Controls[0] = 0) & ((ANN[*].IMPACT = 'HIGH') | (ANN[*].IMPACT = 'MODERATE'))"
-            outFile.write(f'cat $WORK/SNP-outputs/snpEff/{row[0].ann.vcf | {minicondaBin}snpEff filter {filter_variant} > $WORK/SNP-outputs/snpEff/snpEff-filtered/{row[0]}.filtered.vcf \n')
+            #filter_variant = "(Cases[0] = 3) & (Controls[0] = 0) & ((ANN[*].IMPACT = 'HIGH') | (ANN[*].IMPACT = 'MODERATE'))"
+            #outFile.write(f'cat $WORK/SNP-outputs/snpEff/{row[0].ann.vcf | {minicondaBin}SnpSift.jar filter {filter_variant} > $WORK/SNP-outputs/snpEff/snpEff-filtered/{row[0]}.filtered.vcf \n')
