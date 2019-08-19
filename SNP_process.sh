@@ -10,7 +10,6 @@
 #-------------------- make a list for file name
 
 split -l 10 InputFiles.csv new    
-rename -n  's/new/inputfilemm' new*
 
 cd $WORK
 mkdir SNP-outputs
