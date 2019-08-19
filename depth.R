@@ -17,7 +17,7 @@ for (d in depth.files){
 }
 #write(min(dist),depthOutput)
 Dist<- min(as.numeric(dist))
-if (Dist <=25) Dist=25
+#if (Dist <=25) Dist=25
 write(Dist,depthOutput)
 #----------------------------------------------------------------------
 vcf.files <- list.files(vcfPath, full.names = T)
