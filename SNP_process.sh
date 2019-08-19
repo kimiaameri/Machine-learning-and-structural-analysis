@@ -6,12 +6,9 @@
 #SBATCH --output=SNP.%J.out
 
 
-export MINICONDA_HOME="~/miniconda3/envs/sanva/bin/"
-export GITHUB_DIR=`pwd`
-#-------------------- create file name
 
-module load R
-Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
+#-------------------- make a list for file name
+
 split -l 10 InputFiles.csv new    
 rename -n  's/new/inputfilemm' new*
 
