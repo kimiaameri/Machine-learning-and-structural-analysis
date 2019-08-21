@@ -5,7 +5,8 @@
 #SBATCH --error=SNP.%J.err
 #SBATCH --output=SNP.%J.out
 
-
+export MINICONDA_HOME="~/miniconda3/envs/snpvaraiant/bin/"
+export GITHUB_DIR=`pwd`
 
 #-------------------- make a list for file name
 
@@ -18,6 +19,9 @@ mkdir trimmomatic
 cd trimmomatic
 mkdir trimlog
 cd ../
+mkdir bamfiles
+mkdir platypus
+
 mkdir samfiles
 mkdir bamfiles
 mkdir flagsam
