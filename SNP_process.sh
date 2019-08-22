@@ -41,12 +41,13 @@ python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
 done
 sh SNPS.sh
 
-
-
-
-
-
-
+Rscript depth.R $WORK/SNP-outputs/depth/ $WORK/SNP-outputs/freebayesoutput/ depth.txt quality.txt 
+export DEPTH=$(( `cat depth.txt` * 1 ))
+export QUALITY=$((`cat quality.txt` * 1 ))
+python3 pythonBCF_VCF.py ./InputFiles.csv $MINICONDA_HOME $QUALITY $DEPTH
+sh BCF-VCF.sh
+python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME $WORK/SANVA-outputs
+sh snpEff.sh
 cd $WORK/SNP-outputs/snpEff
 for x in *.vcf; do  cat $x | grep -v '##'| grep -v '#'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/snpEff-filtered/$x.csv; done
 find . -name "*.csv" -size 0k -delete
