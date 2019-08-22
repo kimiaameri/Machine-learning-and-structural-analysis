@@ -43,3 +43,33 @@ with open(outputFile,'w') as outFile:
               outFile.write(f'{minicondaBin}picard MarkDuplicates I=$WORK/SNP-outputs/sortsam/{row[0]}.sorted.bam O=$WORK/SNP-outputs/picard/{row[0]}.picard.bam M=$WORK/SNP-outputs/picard/picardlog/{row[0]}.picard.log\n')
               outFile.write(f'{minicondaBin}freebayes -f $WORK/SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa $WORK/SNP-outputs/picard/{row[0]}.picard.bam >$WORK/SNP-outputs/freebayesoutput/{row[0]}.vcf\n')
               outFile.write(f'{minicondaBin}samtools depth -a $WORK/SNP-outputs/sortsam/{row[0]}.sorted.bam > $WORK/SNP-outputs/depth/{row[0]}.depth\n')
+    outFile.write(f'Rscript depth.R $WORK/SNP-outputs/depth/ $WORK/SNP-outputs/freebayesoutput/ depth.txt quality.txt \n' )
+    outFile.write(f'export DEPTH=$(( `cat depth.txt` * 1 )) \n' )
+    outFile.write(f'export QUALITY=$((`cat quality.txt` * 1 ))\n' )
+    count=0
+    with open(inputFile) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            if count !=0 :
+
+                outFile.write(f'{minicondaBin}vcffilter -f "QUAL >{quality}" $WORK/SNP-outputs/freebayesoutput/{row[0]}.vcf >$WORK/SNP-outputs/vcffilter-q/{row[0]}.vcf\n')
+                outFile.write(f'{minicondaBin}vcffilter -f "DP > {depth}" $WORK/SNP-outputs/vcffilter-q/{row[0]}.vcf > $WORK/SNP-outputs/vcffilter-q-dp/{row[0]}.vcf\n')
+                outFile.write(f'{minicondaBin}bcftools view -Ob $WORK/SNP-outputs/vcffilter-q-dp/{row[0]}.vcf > $WORK/SNP-outputs/bcfoutput/{row[0]}.vcf.gz\n')
+                outFile.write(f'{minicondaBin}bcftools index $WORK/SNP-outputs/bcfoutput/{row[0]}.vcf.gz\n')
+                outFile.write('sed -i \'s/^chr/Chromosome/\' $WORK/SNP-outputs/vcffilter-q-dp/*.vcf;\n')
+
+            count =count +1
+    outFile.write('sed -i \'s/^chr/Chromosome/\' $WORK/SNP-outputs/vcffilter-q-dp/*.vcf;\n')
+    count=0
+    with open(inputFile) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+          if count !=0 :
+            outFile.write(f'{minicondaBin}snpEff -v Staphylococcus_aureus_subsp_aureus_nctc_8325 $WORK/SNP-outputs/vcffilter-q-dp/{row[0]}.vcf > $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf \n')
+            outFile.write(f'mv $WORK/SNP/snpEff_genes.txt $WORK/SNP-outputs/snpEff/snpEff-gene/{row[0]}.txt \n')
+            outFile.write(f'mv $WORK/SNP/snpEff_summary.html $WORK/SNP-outputs/snpEff/snpEff-summary/{row[0]}.html \n')
+            #filter_variant = "(Cases[0] = 3) & (Controls[0] = 0) & ((ANN[*].IMPACT = 'HIGH') | (ANN[*].IMPACT = 'MODERATE'))"
+            #outFile.write(f'cat $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf | $WORK/SAEVA_softwares/snpEff/SnpSift.jar filter "TYPE=snp" > $WORK/SNP-outputs/snpEff/snpEff-filtered/{row[0]}.filtered.vcf \n')
+            #outFile.write(f'cat $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf | java -jar $WORK/SAEVA_softwares/snpEff/SnpSift.jar filter \ "TYPE=snp"\ > $WORK/SNP-outputs/snpEff/snpEff-filtered/{row[0]}.filtered.vcf \n')
+
+          count =count +1  
