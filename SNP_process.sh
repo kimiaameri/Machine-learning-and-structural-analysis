@@ -48,5 +48,5 @@ sh SNPS.sh
 
 
 cd $WORK/SNP-outputs/snpEff
-for x in *.vcf; do  cat $x | grep -v '##'| grep -v '#'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outpus/snpEff-filtered/$x.csv; done
-
+for x in *.vcf; do  cat $x | grep -v '##'| grep -v '#'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/snpEff-filtered/$x.csv; done
+find . -name "*.csv" -size 0k -delete
