@@ -41,3 +41,12 @@ python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
 done
 sh SNPS.sh
 
+
+
+
+
+
+
+cd $WORK/SNP-outputs/snpEff
+for x in *.vcf; do  cat $x | grep -v '##'| grep -v '#'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outpus/snpEff-filtered/$x.csv; done
+
