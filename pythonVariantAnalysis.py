@@ -19,7 +19,6 @@ with open(outputFile,'w') as outFile:
     outFile.write('#SBATCH --job-name=variantAnalysis \n')
     outFile.write('#SBATCH --error=variantAnalysis.%J.err \n')
     outFile.write('#SBATCH --output=variantAnalysis.%J.out \n')  
-    count=0
     with open(inputFile) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         
@@ -43,4 +42,5 @@ with open(outputFile,'w') as outFile:
               outFile.write(f'{minicondaBin}picard MarkDuplicates I=$WORK/SNP-outputs/sortsam/{row[0]}.sorted.bam O=$WORK/SNP-outputs/picard/{row[0]}.picard.bam M=$WORK/SNP-outputs/picard/picardlog/{row[0]}.picard.log\n')
               outFile.write(f'{minicondaBin}freebayes -f $WORK/SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa $WORK/SNP-outputs/picard/{row[0]}.picard.bam >$WORK/SNP-outputs/freebayesoutput/{row[0]}.vcf\n')
               outFile.write(f'{minicondaBin}samtools depth -a $WORK/SNP-outputs/sortsam/{row[0]}.sorted.bam > $WORK/SNP-outputs/depth/{row[0]}.depth\n')
-   
+              outFile.write(f'{minicondaBin}vcf2bed < $WORK/SNP-outputs/vcffilter-q-dp/{row[0]}.vcf > $WORK/SNP-outputs/vcfbed/{row[0]}.bed \n')
+
