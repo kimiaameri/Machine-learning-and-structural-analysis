@@ -5,7 +5,7 @@
 #SBATCH --error=SNP.%J.err
 #SBATCH --output=SNP.%J.out
 
-export MINICONDA_HOME="~/miniconda3/envs/snpvaraiant/bin/"
+export MINICONDA_HOME="~/miniconda3/envs/snpvariant/bin/"
 export GITHUB_DIR=`pwd`
 
 #-------------------- make a list for file name
@@ -20,8 +20,12 @@ cd trimmomatic
 mkdir trimlog
 cd ../
 mkdir bamfiles
-mkdir platypus
-
+mkdir snpEff
+cd snpEff
+mkdir snpEff-gene
+mkdir snpEff-summary
+mkdir filtered
+cd ../
 mkdir samfiles
 mkdir bamfiles
 mkdir flagsam
@@ -29,6 +33,9 @@ mkdir sortsam
 mkdir depth
 mkdir stats
 mkdir picard
+mkdir vcffilter-q
+mkdir vcffilter-q-dp
+mkdir bcfoutput
 mkdir freebayesoutput
 cd picard
 mkdir picardlog
@@ -46,7 +53,7 @@ export DEPTH=$(( `cat depth.txt` * 1 ))
 export QUALITY=$((`cat quality.txt` * 1 ))
 python3 pythonBCF_VCF.py ./InputFiles.csv $MINICONDA_HOME $QUALITY $DEPTH
 sh BCF-VCF.sh
-python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME $WORK/SANVA-outputs
+python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME 
 sh snpEff.sh
 cd $WORK/SNP-outputs/snpEff
 for x in *.vcf; do  cat $x | grep -v '##'| grep -v '#'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/snpEff-filtered/$x.csv; done
