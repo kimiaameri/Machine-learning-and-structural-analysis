@@ -56,5 +56,5 @@ sh BCF-VCF.sh
 python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME 
 sh snpEff.sh
 cd $WORK/SNP-outputs/snpEff
-for x in *.vcf; do  cat $x | grep -v '##'| grep -v '#'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/snpEff-filtered/$x.csv; done
-find . -name "*.csv" -size 0k -delete
+for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/$x.csv; done
+find . -name "*.csv" -size <=1k -delete
