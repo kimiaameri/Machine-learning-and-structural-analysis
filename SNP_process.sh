@@ -37,6 +37,8 @@ mkdir vcffilter-q
 mkdir vcffilter-q-dp
 mkdir bcfoutput
 mkdir freebayesoutput
+mkdir intersection
+mkdir vcfbed
 cd picard
 mkdir picardlog
 cd $WORK/SNP/
