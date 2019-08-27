@@ -3,6 +3,7 @@ mkdir SNP_reference_genome
 cd $WORK
 mkdir SNP-outputs
 cd $WORK/SNP-outputs
+mkdir length
 mkdir trimmomatic
 cd trimmomatic
 mkdir trimlog
