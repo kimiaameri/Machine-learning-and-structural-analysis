@@ -8,41 +8,22 @@
 export MINICONDA_HOME="~/miniconda3/envs/snpvariant/bin/"
 export GITHUB_DIR=`pwd`
 
-#-------------------- make a list for file name
+#-------------------- make the directories
 
-split -l 10 InputFiles.csv new    
+sh makedirectories.sh
+#-------------------- Download reference genome
 
-cd $WORK
-mkdir SNP-outputs
-cd $WORK/SNP-outputs
-mkdir trimmomatic
-cd trimmomatic
-mkdir trimlog
-cd ../
-mkdir bamfiles
-mkdir snpEff
-cd snpEff
-mkdir snpEff-gene
-mkdir snpEff-summary
-mkdir filtered
-cd ../
-mkdir samfiles
-mkdir bamfiles
-mkdir flagsam
-mkdir sortsam
-mkdir depth
-mkdir stats
-mkdir picard
-mkdir vcffilter-q
-mkdir vcffilter-q-dp
-mkdir bcfoutput
-mkdir freebayesoutput
-mkdir intersection
-mkdir vcfbed
-cd picard
-mkdir picardlog
-cd $WORK/SNP/
-mkdir length
+cd SNP_reference_genome
+wget ftp://igenome:G3nom3s4u@ussd-ftp.illumina.com/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
+tar -xzf Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
+rm Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
+
+#-------------------- make the inputfile list
+Rscript fileName.R $GITHUB_DIR/SNP-data $GITHUB_DIR/InputFiles.csv
+
+split -l 10 InputFiles.csv new  
+vim list.txt
+for x in new*; do cat list.txt | sed 's/new/Inputfile/'$x done
 
 
 for x in `cat inputs.txt`; do 
@@ -58,5 +39,5 @@ sh BCF-VCF.sh
 python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME 
 sh snpEff.sh
 cd $WORK/SNP-outputs/snpEff
-for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/$x.csv; done
+for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/1/$x.csv; done
 find . -name "*.csv" -size <=1k -delete
