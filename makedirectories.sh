@@ -29,5 +29,3 @@ mkdir intersection
 mkdir vcfbed
 cd picard
 mkdir picardlog
-cd $WORK/SNP/
-mkdir length
