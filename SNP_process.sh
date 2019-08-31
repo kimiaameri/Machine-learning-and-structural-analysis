@@ -19,7 +19,7 @@ tar -xzf Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
 rm Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
 
 #-------------------- make the inputfile list
-Rscript fileName.R $GITHUB_DIR/SNP-data $GITHUB_DIR/InputFiles.csv
+Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
 
 split -l 10 InputFiles.csv new  
 vim list.txt
