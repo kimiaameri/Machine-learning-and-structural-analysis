@@ -9,6 +9,8 @@ cd trimmomatic
 mkdir trimlog
 cd ../
 mkdir bamfiles
+mkdir quality
+mkdir depth
 mkdir snpEff
 cd snpEff
 mkdir snpEff-gene
