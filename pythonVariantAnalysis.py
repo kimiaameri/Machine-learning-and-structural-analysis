@@ -11,6 +11,7 @@ githubPath = sys.argv[3]
 n= sys.argv[4]
 index = n.split('.')[0][10:]
 outputFile ="snp{}.sh".format(index)
+
 with open(outputFile,'w') as outFile:
     outFile.write('#!/bin/sh \n')
     outFile.write('#SBATCH --time=100:00:00   # Run time in hh:mm:ss  \n')
@@ -19,13 +20,14 @@ with open(outputFile,'w') as outFile:
     outFile.write('#SBATCH --job-name=variantAnalysis \n')
     outFile.write('#SBATCH --error=variantAnalysis.%J.err \n')
     outFile.write('#SBATCH --output=variantAnalysis.%J.out \n')  
+    count=0
     with open(inputFile) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         
         for row in csv_reader:
               outFile.write(f' cd $WORK/SNP/data/\n' )
-              outFile.write(f" cat  filtered_{row[2]} | grep -o 'length=.*$' | cut -f2 -d'=' > ../length/{row[0]}.txt  \n" )
-              outFile.write(f' cd $WORK/SNP/length/\n' )
+              outFile.write(f" cat  filtered_{row[2]} | grep -o 'length=.*$' | cut -f2 -d'=' > $WORK/SNP-outputs/length/{row[0]}.txt  \n" )
+              outFile.write(f' cd $WORK/SNP-outputs/length/\n' )
               ak = "awk '{ total += $1; count ++ } END { print total/count }'"
               outFile.write(f' {ak}  {row[0]}.txt > length_{row[0]}.txt \n' )
               outFile.write(f'export LengthReverse=$(( `cat length_{row[0]}.txt` ))  \n' )
@@ -43,4 +45,36 @@ with open(outputFile,'w') as outFile:
               outFile.write(f'{minicondaBin}freebayes -f $WORK/SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa $WORK/SNP-outputs/picard/{row[0]}.picard.bam >$WORK/SNP-outputs/freebayesoutput/{row[0]}.vcf\n')
               outFile.write(f'{minicondaBin}samtools depth -a $WORK/SNP-outputs/sortsam/{row[0]}.sorted.bam > $WORK/SNP-outputs/depth/{row[0]}.depth\n')
               outFile.write(f'{minicondaBin}vcf2bed < $WORK/SNP-outputs/vcffilter-q-dp/{row[0]}.vcf > $WORK/SNP-outputs/vcfbed/{row[0]}.bed \n')
+              #outFile.write(f'{minicondaBin}bedtools intersect -a $WORK/SNP-outputs/vcfbed/{row[0]}.bed -b {genomeBedpath}nctc8325.bed > $WORK/SNP-outputs/intersection/{row[0]}.bed \n')
+              #outFile.write(f' cd $WORK/SNP-outputs/freebayesoutput/\n' )
+              #outFile.write(f" cat {row[0]}.vcf | grep -v '##'| grep -v '#'| cut -f6 -d'=' > $WORK/SNP-outputs/quality/{row[0]}.txt  \n" )
+              #outFile.write(f' cd $WORK/SNP-outputs/quality/\n' )
+              #ak = "awk '{ total += $1; count ++ } END { print total/count }'"
+              #outFile.write(f' {ak}  {row[0]}.txt > quality_{row[0]}.txt \n' )
+              # outFile.write(f'export QUAL=$(( `cat quality_{row[0]}.txt` *1 ))  \n' )
+              # outFile.write("QUALITY=${QUAL%.*} \n")
+              #outFile.write(f'{minicondaBin}vcffilter -f "QUAL >$QUALITY " $WORK/SNP-outputs/freebayesoutput/{row[0]}.vcf >$WORK/SNP-outputs/vcffilter-q/{row[0]}.vcf\n')
+              outFile.write(f' cd $WORK/SNP-outputs/depth/\n' )
+              outFile.write(f" cat {row[1]} | cut -f2 -d'=' > $WORK/SNP-outputs/depth/{row[0]}.txt  \n" )
+              outFile.write(f' cd $WORK/SNP-outputs/depth/\n' )
+              ak = "awk '{ total += $1; count ++ } END { print total/count }'"
+              outFile.write(f' {ak}  {row[0]}.txt > depth_{row[0]}.txt \n' )
+              outFile.write(f'export DEPTH=$(( `cat depth_{row[0]}.txt` *1 ))  \n' )
+              outFile.write("DEPTH=${DEPTH%.*} \n")
+              outFile.write(f'{minicondaBin}vcffilter -f "DP > $DEPTH " $WORK/SNP-outputs/freebayesoutput/{row[0]}.vcf > $WORK/SNP-outputs/vcffilter-dp/{row[0]}.vcf\n')
+              outFile.write(f'{minicondaBin}bcftools view -Ob $WORK/SNP-outputs/vcffilter-dp/{row[0]}.vcf > $WORK/SNP-outputs/bcfoutput/{row[0]}.vcf.gz\n')
+              outFile.write(f'{minicondaBin}bcftools index $WORK/SNP-outputs/bcfoutput/{row[0]}.vcf.gz\n')
+    outFile.write('sed -i \'s/^chr/Chromosome/\' $WORK/SNP-outputs/vcffilter-dp/*.vcf;\n')
+    count=0
+    with open(inputFile) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            outFile.write("cd $WORK/SNP/ \n")
+            outFile.write(f'{minicondaBin}snpEff -v -ud 0 Staphylococcus_aureus_subsp_aureus_nctc_8325 $WORK/SNP-outputs/vcffilter-q-dp/{row[0]}.vcf > $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf \n')
+            outFile.write(f'mv $WORK/SNP/snpEff_genes.txt $WORK/SNP-outputs/snpEff/snpEff-gene/{row[0]}.txt \n')
+            outFile.write(f'mv $WORK/SNP/snpEff_summary.html $WORK/SNP-outputs/snpEff/snpEff-summary/{row[0]}.html \n')
+            outFile.write("cd $WORK/SNP-outputs/snpEff/ \n")
+            filter_variant = "(TYPE[*] has 'snp')"
+            outFile.write(f'cat $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf | {minicondaBin}SnpSift filter  "{filter_variant}"  > $WORK/SNP-outputs/snpEff/filtered/{row[0]}.filtered.vcf \n')
+            outFile.write(f'cat $WORK/SNP-outputs/snpEff/{row[0]}.ann.vcf | {minicondaBin}SnpSift filter  " ( QUAL > 500) "  > $WORK/SNP-outputs/snpEff/filtered/quality-{row[0]}.filtered.vcf \n')
 
