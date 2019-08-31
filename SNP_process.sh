@@ -39,5 +39,8 @@ sh BCF-VCF.sh
 python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME 
 sh snpEff.sh
 cd $WORK/SNP-outputs/snpEff
-for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/2/filtered2/$x; done
+for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/$x; done
 find . -name "*.csv" -size 1k -delete
+###############               merge all files together,remove headers and sort based on positions      #########
+for x in *.vcf; do  cat $x | sort -k2,2 | grep -v '##'| grep -v '#' >$WORK/SNP-outputs/snpEff/filtered/2/filtered2/1/$x;done
+for x in *.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimia/SNP-outputs/snpEff/filtered/2/filtered2/1/$x; done
