@@ -4,7 +4,7 @@ OutputFile <- argv[2]
 
 
 listdata<- list.files(InputPath)
-listdata<- gsub(pattern = "filtered_",replacement = "",listdata, perl = T)
+#listdata<- gsub(pattern = "filtered_",replacement = "",listdata, perl = T)
 z1<- gsub(pattern = '_([1-9]+).*',replacement = "",listdata, perl = T)
 
 z<-unique(z1)
