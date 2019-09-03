@@ -21,7 +21,7 @@ rm Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
 #-------------------- make the inputfile list
 Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
 
-split -l 10 InputFiles.csv new  
+split -l 20 InputFiles.csv   
 vim list.txt
 for x in new*; do cat list.txt | sed 's/new/Inputfile/'$x done
 
