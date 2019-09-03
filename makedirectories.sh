@@ -23,8 +23,7 @@ mkdir sortsam
 mkdir depth
 mkdir stats
 mkdir picard
-mkdir vcffilter-q
-mkdir vcffilter-q-dp
+mkdir vcffilter-dp
 mkdir bcfoutput
 mkdir freebayesoutput
 mkdir intersection
