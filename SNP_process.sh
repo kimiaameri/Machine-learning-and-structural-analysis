@@ -19,25 +19,18 @@ tar -xzf Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
 rm Staphylococcus_aureus_NCTC_8325_NCBI_2006-02-13.tar.gz
 
 #-------------------- make the inputfile list
-Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/InputFiles.csv
+Rscript fileName.R $GITHUB_DIR/data $GITHUB_DIR/Listdata.csv
 
-split -l 20 InputFiles.csv   
-vim list.txt
-for x in new*; do cat list.txt | sed 's/new/Inputfile/'$x done
+split -l 30 Listdata.csv InputFile
 
-
-for x in `cat inputs.txt`; do 
+for x in InputFile*; do 
 python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
 done
 sh SNPS.sh
-
-Rscript depth.R $WORK/SNP-outputs/depth/ $WORK/SNP-outputs/freebayesoutput/ depth.txt quality.txt 
-export DEPTH=$(( `cat depth.txt` * 1 ))
-export QUALITY=$((`cat quality.txt` * 1 ))
-python3 pythonBCF_VCF.py ./InputFiles.csv $MINICONDA_HOME $QUALITY $DEPTH
-sh BCF-VCF.sh
-python3 pythonSnpEff.py ./InputFiles.csv $MINICONDA_HOME 
+python3 pythonSnpEff.py ./Listdata.csv $MINICONDA_HOME 
 sh snpEff.sh
+
+
 cd $WORK/SNP-outputs/snpEff
 for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/$x; done
 find . -name "*.csv" -size 1k -delete
