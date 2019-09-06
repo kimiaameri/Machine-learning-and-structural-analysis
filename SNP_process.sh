@@ -27,7 +27,7 @@ for x in InputFile*; do
 python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
 done
 sh SNPS.sh
-python3 pythonsnpEff.py ./Listdata.csv $MINICONDA_HOME ./SNP-outputs
+python3 pythonsnpEff.py ./Listdata.csv $MINICONDA_HOME $WORK/SNP-outputs
 sh snpEff.sh
 
 
