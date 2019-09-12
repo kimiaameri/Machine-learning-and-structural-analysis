@@ -28,7 +28,7 @@ python3 pythonVariantAnalysis.py ./$x $MINICONDA_HOME $GITHUB_DIR $x
 done
 sh SNPS.sh
 python3 pythonsnpEff.py ./Listdata.csv $MINICONDA_HOME $WORK/SNP-outputs
-sh snpEff.sh
+sh snpEffMerge.sh
 
 
 cd $WORK/SNP-outputs/snpEff
@@ -38,3 +38,11 @@ find . -name "*.csv" -size 1k -delete
 cd $WORK/SNP-outputs/snpEff/filtered/
 for x in *.vcf; do  cat $x | sort -k2,2 | grep -v '##' >$WORK/SNP-outputs/snpEff/filtered/$x;done
 for x in quality*.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimia/SNP-outputs/snpEff/filtered/$x; done
+
+#---------------------------- For Snippy ---------------------#
+cd $WORK/snippy
+split -l 30 Listdata.csv InputFile
+
+for x in InputFile*; do 
+snippy-multi ./Listdata.csv ---ref ../SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa --cpus 64 > runmex.sh
+done
