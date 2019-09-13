@@ -46,3 +46,9 @@ split -l 30 Listdata.csv InputFile
 for x in InputFile*; do 
 snippy-multi ./Listdata.csv ---ref ../SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa --cpus 64 > runmex.sh
 done
+
+
+
+for x in InputFile*; do 
+python3 pythonSnippy.py ./$x  $GITHUB_DIR $x
+done
