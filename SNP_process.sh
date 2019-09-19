@@ -41,12 +41,13 @@ for x in quality*.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimi
 
 #---------------------------- For Snippy ---------------------#
 cd $WORK/snippy
-split -l 30 Listdata.csv InputFile
+split -l 300 Listdata.csv InputFile
 
 for x in InputFile*; do 
-snippy-multi ./Listdata.csv ---ref ../SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa --cpus 64 > runmex.sh
+snippy-multi ./$x --ref ../SNP_reference_genome/Staphylococcus_aureus_NCTC_8325/NCBI/2006-02-13/Sequence/WholeGenomeFasta/genome.fa --cpus 64 > runme$x.sh
 done
 
+for x in *.vcf; do  cat $x | grep -v '##' >$WORK/snippy1/newsnp/$x.csv;done
 
 
 for x in InputFile*; do 
