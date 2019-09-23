@@ -1,9 +1,9 @@
 argv <- commandArgs(trailingOnly = TRUE)
 sourcePath <- argv[1]
 OutputFile<- argv[2]
-SNP1<- read.csv( sourcePath/clean_cut_filtered_merge_snpEff1.ann.vcf.vcf, header = TRUE, sep="\t")
-SNP2<- read.csv(sourcePath/clean_cut_filtered_merge_snpEff2.ann.vcf.vcf, header = TRUE, sep="\t")
-SNP3<- read.csv(sourcePath/clean_cut_filtered_merge_snpEff3.ann.vcf.vcf, header = TRUE, sep="\t")
+SNP1<- read.csv( paste0(sourcePath,"/clean_cut_filtered_merge_snpEff1.ann.vcf.vcf"), header = TRUE, sep="\t")
+SNP2<- read.csv(paste0(sourcePath,"/clean_cut_filtered_merge_snpEff2.ann.vcf.vcf", header = TRUE, sep="\t")
+SNP3<- read.csv(paste0(sourcePath,"/clean_cut_filtered_merge_snpEff3.ann.vcf.vcf", header = TRUE, sep="\t")
 
 SNP1.Matrix<- merge(x=SNP1, y=SNP2, all = TRUE, by="POS")
 for (i in 1: nrow(SNP1.Matrix))
