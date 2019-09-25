@@ -6,7 +6,7 @@ SNPcoreMatrix <- argv[3]
 SNP1<- read.csv(paste0(MergePath,"clean_cut_filtered_merge_snpEff1.ann.vcf.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
 SNP2<- read.csv(paste0(MergePath,"clean_cut_filtered_merge_snpEff2.ann.vcf.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
 SNP3<- read.csv(paste0(MergePath,"clean_cut_filtered_merge_snpEff3.ann.vcf.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
-SNP3[,1:5] -> SNP3
+SNP3<- SNP3[,1:5] 
 
 SNPa.Matrix<- rbind(SNP1,SNP2,SNP3)
 listpos<- unique(SNPa.Matrix$POS)
