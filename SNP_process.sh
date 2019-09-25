@@ -41,7 +41,7 @@ for x in quality*.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimi
 
 #------------- make SNP matrix ------------------------------#
 cd $WORK/SNP-outputs/snpEff/1/merge/
-for x in merge*; do cat $x | grep -v '##'| sed 's/DPB=.*;TYPE=/TYPE=/' | cut -f 2,4,5,6,8 | cut -f1 -d';' > $WORK/SNP-outputs/snpEff/1/merge/filtered$x; done
+for x in merge*; do cat $x | grep -v '##'| sed 's/DPB=.*;TYPE=/TYPE=/' | cut -f 2,4,5,6,8 | cut -f1 -d';' > $WORK/SNP-outputs/snpEff/1/merge/clean_$x; done
 
 Rscript SNP_Matrix.R $WORK/SNP-outputs/snpEff/1/merge/ $WORK/SNP-outputs/snpEff/filtered/ $WORK/SNP-outputs/snpCoreMatrix.csv
 #---------------------------- For Snippy ---------------------#
