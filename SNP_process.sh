@@ -40,6 +40,9 @@ for x in *.vcf; do  cat $x | sort -k2,2 | grep -v '##' >$WORK/SNP-outputs/snpEff
 for x in quality*.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimia/SNP-outputs/snpEff/filtered/$x; done
 
 #------------- make SNP matrix ------------------------------#
+cd $WORK/SNP-outputs/snpEff/1/merge/
+for x in merge*; do cat $x | grep -v '##'| sed 's/DPB=.*;TYPE=/TYPE=/' | cut -f 2,4,5,6,8 | cut -f1 -d';' > $WORK/SNP-outputs/snpEff/1/merge/filtered$x; done
+
 Rscript SNP_Matrix.R $WORK/SNP-outputs/snpEff/1/merge/ $WORK/SNP-outputs/snpEff/filtered/ $WORK/SNP-outputs/snpCoreMatrix.csv
 #---------------------------- For Snippy ---------------------#
 cd $WORK/snippy
