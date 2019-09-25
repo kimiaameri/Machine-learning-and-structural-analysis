@@ -3,9 +3,9 @@ argv <- commandArgs(trailingOnly = TRUE)
 MergePath <- argv[1]
 SnpEffPath <- argv[2]
 SNPcoreMatrix <- argv[3]
-SNP1<- read.csv(paste0(MergePath,"clean_merge_snpEff1.ann.vcf.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
-SNP2<- read.csv(paste0(MergePath,"clean_merge_snpEff2.ann.vcf.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
-SNP3<- read.csv(paste0(MergePath,"clean_merge_snpEff3.ann.vcf.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
+SNP1<- read.csv(paste0(MergePath,"clean_merge_snpEff1.ann.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
+SNP2<- read.csv(paste0(MergePath,"clean_merge_snpEff2.ann.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
+SNP3<- read.csv(paste0(MergePath,"clean_merge_snpEff3.ann.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
 SNP3<- SNP3[,1:5] 
 
 SNPa.Matrix<- rbind(SNP1,SNP2,SNP3)
