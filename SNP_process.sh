@@ -40,7 +40,7 @@ for x in *.vcf; do  cat $x | sort -k2,2 | grep -v '##' >$WORK/SNP-outputs/snpEff
 for x in quality*.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimia/SNP-outputs/snpEff/filtered/$x; done
 
 #------------- make SNP matrix ------------------------------#
-Rscript SNP_Matrix.R $WORK/SNP-outputs/snpEff/1/merge $WORK/SNP-outputs/snpEff/filtered $WORK/SNP-outputs/snpCoreMatrix.csv
+Rscript SNP_Matrix.R $WORK/SNP-outputs/snpEff/1/merge/ $WORK/SNP-outputs/snpEff/filtered/ $WORK/SNP-outputs/snpCoreMatrix.csv
 #---------------------------- For Snippy ---------------------#
 cd $WORK/snippy
 split -l 300 Listdata.csv InputFile
