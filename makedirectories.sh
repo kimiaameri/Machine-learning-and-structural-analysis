@@ -1,5 +1,3 @@
-cd $WORK/
-mkdir SNP_reference_genome
 cd $WORK
 mkdir SNP-outputs
 cd $WORK/SNP-outputs
@@ -10,7 +8,6 @@ mkdir trimlog
 cd ../
 mkdir bamfiles
 mkdir quality
-mkdir depth
 mkdir snpEff
 cd snpEff
 mkdir snpEff-gene
@@ -21,6 +18,9 @@ mkdir samfiles
 mkdir flagsam
 mkdir sortsam
 mkdir depth
+cd depth
+mkdir dp
+cd ../
 mkdir stats
 mkdir picard
 mkdir vcffilter-dp
