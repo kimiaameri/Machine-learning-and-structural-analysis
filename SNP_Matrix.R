@@ -23,10 +23,12 @@ colnames(SNP.Matrix) <-  listnames
 rownames(SNP.Matrix) <- listpos[,1]
 for (i in 1:l)
 {  
+  print(i)
   k = listsnp[i]
   intersection <- as.matrix(read.table(paste(SnpEffPath,k,sep=""),header=T,sep="\t",stringsAsFactors = F))
   mut.pos <- as.numeric(intersection[,1])
   SNP.Matrix[as.character(mut.pos),i] <- 1
+  print(i)
 }
 write.csv(SNP.Matrix, SNPcoreMatrix)
 
