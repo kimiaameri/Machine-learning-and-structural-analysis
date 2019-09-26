@@ -10,7 +10,7 @@ SNPcoreMatrix <- argv[3]
 #SNP3<- SNP3[,1:5] 
 
 #SNPa.Matrix<- rbind(SNP1,SNP2,SNP3)
-listpos<- as.matrix(read.table(paste0(Pospath,"uniq.pos.txt"),header=F,sep="\t",stringsAsFactors = F))
+listpos<- read.csv(paste0(Pospath,"uniq.pos.txt"),header=F,sep="\t",stringsAsFactors = F)
 
 #-----------------------
 listsnp <- list.files(SnpEffPath)
@@ -21,6 +21,7 @@ listname<- gsub("filtered",replacement = "",listsnp,  perl = T)
 listnames<- gsub(".ann.vcf",replacement = "",listname,  perl = T)
 colnames(SNP.Matrix) <-  listnames 
 rownames(SNP.Matrix) <- listpos[,1]
+
 for (i in 1:l)
 {  
   print(i)
