@@ -13,7 +13,7 @@ SNPcoreMatrix <- argv[3]
 listpos<- read.csv(paste0(Pospath,"uniq.pos.txt"),header=F,sep="\t",stringsAsFactors = F)
 
 #-----------------------
-listsnp <- list.files(SnpEffPath)
+listsnp <- list.files(SnpEffPath , pattern= "vcf")
 l<-length(listsnp)
 
 SNP.Matrix <- matrix(0,nrow=nrow(listpos),ncol=l)
