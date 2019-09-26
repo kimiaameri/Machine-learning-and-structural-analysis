@@ -10,7 +10,7 @@ SNPcoreMatrix <- argv[3]
 #SNP3<- SNP3[,1:5] 
 
 #SNPa.Matrix<- rbind(SNP1,SNP2,SNP3)
-listpos<- read.csv(paste0(Pospath,"uniq.pos.txt"), header = False, sep="\t",stringsAsFactors = F)
+listpos<- as.matrix(read.table(paste0(Pospath,"uniq.pos.txt"), header = False, sep="\t",stringsAsFactors = F))
 
 #-----------------------
 listsnp <- list.files(SnpEffPath)
