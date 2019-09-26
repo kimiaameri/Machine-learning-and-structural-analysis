@@ -1,7 +1,7 @@
 
 argv <- commandArgs(trailingOnly = TRUE)
 #MergePath <- argv[1]
-pospath<- argv[1]
+Pospath<- argv[1]
 SnpEffPath <- argv[2]
 SNPcoreMatrix <- argv[3]
 #SNP1<- read.csv(paste0(MergePath,"clean_merge_snpEff1.ann.vcf"), header = TRUE, sep="\t",stringsAsFactors = F)
