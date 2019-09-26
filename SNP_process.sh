@@ -32,7 +32,7 @@ sh snpEffMerge.sh
 
 
 cd $WORK/SNP-outputs/snpEff
-for x in *.vcf; do  cat $x | grep -v '##'| sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/$x; done
+for x in *.vcf; do  cat $x | grep -v '##'| cut -f 2,4,5,6,8 |sed 's/AB=.*;TYPE=/TYPE=/' > $WORK/SNP-outputs/snpEff/filtered/$x; done
 find . -name "*.csv" -size 1k -delete
 ###############               merge all files together,remove headers and sort based on positions      #########
 cd $WORK/SNP-outputs/snpEff/filtered/
@@ -40,11 +40,10 @@ for x in *.vcf; do  cat $x | sort -k2,2 | grep -v '##' >$WORK/SNP-outputs/snpEff
 for x in quality*.filtered.vcf; do cat $x |cut -f 1 -d ":"  > /work/biocore/kimia/SNP-outputs/snpEff/filtered/$x; done
 
 #------------- make SNP matrix ------------------------------#
-sbatch Pos.sh
-#cd $WORK/SNP-outputs/snpEff/1/merge/
-#for x in merge*; do cat $x | grep -v '##'| sed 's/DPB=.*;TYPE=/TYPE=/' | cut -f 2,4,5,6,8 | cut -f1 -d';' > $WORK/SNP-outputs/snpEff/1/merge/clean_$x; done
+cd $WORK/SNP-outputs/snpEff/1/merge/
+for x in merge*; do cat $x | grep -v '##'| sed 's/DPB=.*;TYPE=/TYPE=/' | cut -f 2,4,5,6,8 | cut -f1 -d';' > $WORK/SNP-outputs/snpEff/1/merge/clean_$x; done
 
-Rscript SNP_Matrix.R $WORK/SNP-outputs/ $WORK/SNP-outputs/snpEff/filtered/ $WORK/SNP-outputs/snpCoreMatrix.csv
+Rscript SNP_Matrix.R $WORK/SNP-outputs/snpEff/1/merge/ $WORK/SNP-outputs/snpEff/filtered/ $WORK/SNP-outputs/snpCoreMatrix.csv
 #---------------------------- For Snippy ---------------------#
 cd $WORK/snippy
 split -l 300 Listdata.csv InputFile
