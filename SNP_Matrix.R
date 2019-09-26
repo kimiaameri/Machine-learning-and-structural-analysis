@@ -16,11 +16,11 @@ listpos<- read.csv(paste0(Pospath,"uniq.pos.txt"), header = False, sep="\t",stri
 listsnp <- list.files(SnpEffPath)
 l<-length(listsnp)
 
-SNP.Matrix <- matrix(0,nrow=nrow (listpos),ncol=l)
+SNP.Matrix <- matrix(0,nrow=nrow(listpos),ncol=l)
 listname<- gsub("filtered",replacement = "",listsnp,  perl = T)
 listnames<- gsub(".ann.vcf",replacement = "",listname,  perl = T)
 colnames(SNP.Matrix) <-  listnames 
-rownames(SNP.Matrix) <- listpos
+rownames(SNP.Matrix) <- listpos[,1]
 for (i in 1:l)
 {  
   k = listsnp[i]
